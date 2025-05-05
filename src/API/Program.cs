@@ -1,4 +1,6 @@
 using API.Config;
+using Application.Interfaces;
+using Application.Services;
 using Infrastructure.Cache;
 using Infrastructure.Persistence;
 using Infrastructure.Storage;
@@ -27,6 +29,10 @@ builder.Services.AddSingleton(new RedisCacheService(redisConfig!.ConnectionStrin
 // Register MinioStorageService
 var minioConfig = builder.Configuration.GetSection("Minio").Get<MinioConfig>();
 builder.Services.AddSingleton(new MinioStorageService(minioConfig!.Endpoint, minioConfig.AccessKey, minioConfig.SecretKey));
+
+// Register Services
+builder.Services.AddScoped<IItemListingRepository, ItemListingRepository>();
+builder.Services.AddScoped<IItemListingService, ItemListingService>();
 
 var app = builder.Build();
 
