@@ -1,8 +1,9 @@
 using API.Config;
 using Application.Interfaces;
 using Application.Services;
-using Infrastructure.Cache;
-using Infrastructure.Persistence;
+using Infrastructure.Common;
+using Infrastructure.Data;
+using Infrastructure.ItemListings;
 using Infrastructure.Storage;
 using Microsoft.OpenApi.Models;
 
@@ -33,6 +34,7 @@ builder.Services.AddSingleton(new MinioStorageService(minioConfig!.Endpoint, min
 // Register Services
 builder.Services.AddScoped<IItemListingRepository, ItemListingRepository>();
 builder.Services.AddScoped<IItemListingService, ItemListingService>();
+builder.Services.AddScoped<ICachedItemListingService, CachedItemListingService>();
 
 var app = builder.Build();
 

@@ -1,7 +1,7 @@
-using Domain.Entities;
+using Infrastructure.Data.Models;
 using MongoDB.Driver;
 
-namespace Infrastructure.Persistence;
+namespace Infrastructure.Data;
 
 public class MongoDbContext
 {
@@ -13,5 +13,5 @@ public class MongoDbContext
         _database = client.GetDatabase(dbName);
     }
 
-    public IMongoCollection<ItemListing> ItemListings => _database.GetCollection<ItemListing>("ItemListings");
+    public IMongoCollection<ItemListingDbModel> ItemListings => _database.GetCollection<ItemListingDbModel>("ItemListings");
 }
