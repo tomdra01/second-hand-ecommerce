@@ -34,6 +34,11 @@ public class ItemListingRepository : IItemListingRepository
     public async Task CreateAsync(ItemListing item)
     {
         var dbModel = ItemListingDbMapper.ToDb(item);
+    
+        if (string.IsNullOrWhiteSpace(dbModel.Id))
+            dbModel.Id = Guid.NewGuid().ToString();
+
         await _collection.InsertOneAsync(dbModel);
+        item.Id = Guid.Parse(dbModel.Id);
     }
 }

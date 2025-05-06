@@ -7,5 +7,5 @@ public class ItemListing
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
     public string SellerId { get; set; } = string.Empty;
-    public List<string> ImageUrls { get; set; } = new();
+    public List<string> ImageUrls { get; set; } = [];
 }

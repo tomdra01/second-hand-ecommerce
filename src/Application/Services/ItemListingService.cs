@@ -29,5 +29,7 @@ public class ItemListingService : IItemListingService
     {
         var entity = ItemListingMapper.ToEntity(dto);
         await _repository.CreateAsync(entity);
+        
+        dto.Id = entity.Id.ToString();
     }
 }

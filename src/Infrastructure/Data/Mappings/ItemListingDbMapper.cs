@@ -7,7 +7,7 @@ public static class ItemListingDbMapper
 {
     public static ItemListingDbModel ToDb(ItemListing entity) => new()
     {
-        Id = entity.Id.ToString(),
+        Id = entity.Id == Guid.Empty ? Guid.NewGuid().ToString() : entity.Id.ToString(),
         Title = entity.Title,
         Description = entity.Description,
         Price = entity.Price,

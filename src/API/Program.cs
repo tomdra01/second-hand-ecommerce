@@ -1,3 +1,4 @@
+using System.Globalization;
 using API.Config;
 using Application.Interfaces;
 using Application.Services;
@@ -8,6 +9,13 @@ using Infrastructure.Storage;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Set culture info for the application
+var cultureInfo = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+CultureInfo.CurrentCulture = cultureInfo;
+CultureInfo.CurrentUICulture = cultureInfo;
 
 // Add controllers
 builder.Services.AddControllers();
