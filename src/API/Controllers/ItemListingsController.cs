@@ -8,32 +8,26 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class ItemListingsController : ControllerBase
 {
-    private readonly IItemListingService _service;
+    private readonly ICachedItemListingService _cachedService;
     private readonly ILogger<ItemListingsController> _logger;
 
-    public ItemListingsController(IItemListingService service, ILogger<ItemListingsController> logger)
+    public ItemListingsController(ICachedItemListingService cachedService, ILogger<ItemListingsController> logger)
     {
-        _service = service;
+        _cachedService = cachedService;
         _logger = logger;
     }
 
-    /// <summary>
-    /// Get all item listings.
-    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ItemListingDto>>> GetAll()
     {
-        var listings = await _service.GetAllAsync();
+        var listings = await _cachedService.GetAllAsync();
         return Ok(listings);
     }
 
-    /// <summary>
-    /// Get a specific item listing by ID.
-    /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ItemListingDto>> GetById(Guid id)
     {
-        var listing = await _service.GetByIdAsync(id);
+        var listing = await _cachedService.GetByIdAsync(id);
         if (listing is null)
         {
             _logger.LogWarning("Listing with ID {Id} not found.", id);
@@ -43,9 +37,6 @@ public class ItemListingsController : ControllerBase
         return Ok(listing);
     }
 
-    /// <summary>
-    /// Create a new item listing (no images yet).
-    /// </summary>
     [HttpPost]
     public async Task<ActionResult> Create([FromBody] ItemListingDto dto)
     {
@@ -54,7 +45,7 @@ public class ItemListingsController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        await _service.CreateAsync(dto);
+        await _cachedService.CreateAsync(dto);
         _logger.LogInformation("Created listing: {@Listing}", dto);
         return Ok(new { message = "Listing created successfully." });
     }

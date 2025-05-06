@@ -85,5 +85,31 @@ second-hand-ecommerce/
 └── docker-compose.yml
 ```
 
+## ⚡ Redis Caching Explained
+
+To improve performance, we've integrated Redis as a caching layer for `GET /api/itemlistings`.
+
+### How it works:
+- On the **first request**, the system fetches all listings from **MongoDB** and stores them in **Redis**.
+- Subsequent requests are served directly from **Redis**, significantly reducing latency.
+
+### 🔁 Cache Invalidation:
+- Whenever a new item listing is **created**, the cache is **invalidated** to ensure data consistency.
+
+### ⏱ Real Performance Gain:
+| Source      | Response Time |
+|-------------|----------------|
+| MongoDB     | ~110–240 ms    |
+| Redis Cache | ~4–28 ms       |
+
+- MongoDB response times can vary based on the number of items in the database. The more items, the longer it takes to fetch them.
+
+- First request to MongoDB takes longer due to the initial fetch. 
+
+- Redis response times are consistent and significantly faster, regardless of the number of items. 
+
+> Result: ~10× faster response times using Redis! 🧠🚀
+
+
 
 
