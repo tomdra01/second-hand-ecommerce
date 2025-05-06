@@ -1,9 +1,10 @@
 using System.Text.Json;
+using Application.Interfaces;
 using StackExchange.Redis;
 
 namespace Infrastructure.Services;
 
-public class RedisCacheService
+public class RedisCacheService : ICacheService
 {
     private readonly IDatabase _database;
 

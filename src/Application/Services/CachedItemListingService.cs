@@ -1,17 +1,16 @@
 using Application.DTOs;
 using Application.Interfaces;
 using Application.Mappers;
-using Infrastructure.Services;
 
-namespace Infrastructure.ItemListings;
+namespace Application.Services;
 
 public class CachedItemListingService : ICachedItemListingService
 {
     private readonly IItemListingRepository _repository;
-    private readonly RedisCacheService _cache;
+    private readonly ICacheService _cache;
     private const string CacheKey = "item_listings_all";
 
-    public CachedItemListingService(IItemListingRepository repository, RedisCacheService cache)
+    public CachedItemListingService(IItemListingRepository repository, ICacheService cache)
     {
         _repository = repository;
         _cache = cache;

@@ -1,11 +1,11 @@
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Data;
-using Infrastructure.Data.Models;
 using Infrastructure.Data.Mappings;
+using Infrastructure.Data.Models;
 using MongoDB.Driver;
 
-namespace Infrastructure.ItemListings;
+namespace Infrastructure.Repositories;
 
 public class ItemListingRepository : IItemListingRepository
 {

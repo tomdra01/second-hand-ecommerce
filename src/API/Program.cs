@@ -3,7 +3,7 @@ using API.Config;
 using Application.Interfaces;
 using Application.Services;
 using Infrastructure.Data;
-using Infrastructure.ItemListings;
+using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.OpenApi.Models;
 
@@ -32,7 +32,8 @@ builder.Services.AddSingleton(new MongoDbContext(mongoConfig!.ConnectionString, 
 
 // Register RedisCacheService
 var redisConfig = builder.Configuration.GetSection("Redis").Get<RedisConfig>();
-builder.Services.AddSingleton(new RedisCacheService(redisConfig!.ConnectionString));
+builder.Services.AddSingleton<ICacheService>(provider => new RedisCacheService(redisConfig!.ConnectionString));
+
 
 // Register MinioStorageService
 var minioConfig = builder.Configuration.GetSection("Minio").Get<MinioConfig>();
