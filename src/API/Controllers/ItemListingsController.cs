@@ -1,5 +1,7 @@
+using API.Requests;
 using Application.DTOs;
 using Application.Interfaces;
+using Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -9,14 +11,22 @@ namespace API.Controllers;
 public class ItemListingsController : ControllerBase
 {
     private readonly ICachedItemListingService _cachedService;
+    private readonly MinioStorageService _minioService;
     private readonly ILogger<ItemListingsController> _logger;
 
-    public ItemListingsController(ICachedItemListingService cachedService, ILogger<ItemListingsController> logger)
+    public ItemListingsController(
+        ICachedItemListingService cachedService,
+        MinioStorageService minioService,
+        ILogger<ItemListingsController> logger)
     {
         _cachedService = cachedService;
+        _minioService = minioService;
         _logger = logger;
     }
 
+    /// <summary>
+    /// Get all item listings.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ItemListingDto>>> GetAll()
     {
@@ -24,6 +34,9 @@ public class ItemListingsController : ControllerBase
         return Ok(listings);
     }
 
+    /// <summary>
+    /// Get a specific item listing by ID.
+    /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ItemListingDto>> GetById(Guid id)
     {
@@ -37,16 +50,41 @@ public class ItemListingsController : ControllerBase
         return Ok(listing);
     }
 
+    /// <summary>
+    /// Create a new item listing with optional image upload.
+    /// </summary>
     [HttpPost]
-    public async Task<ActionResult> Create([FromBody] ItemListingDto dto)
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult> Create([FromForm] CreateItemListingRequest request)
     {
         if (!ModelState.IsValid)
-        {
             return BadRequest(ModelState);
+
+        string imageUrl = string.Empty;
+
+        if (request.Image is not null)
+        {
+            var objectName = $"{Guid.NewGuid()}_{request.Image.FileName}";
+            await _minioService.UploadFileAsync(request.Image, objectName);
+            imageUrl = _minioService.GetFileUrl(objectName);
         }
+
+        var dto = new ItemListingDto
+        {
+            Title = request.Title,
+            Description = request.Description,
+            Price = request.Price,
+            SellerId = request.SellerId,
+            ImageUrls = imageUrl != string.Empty ? new List<string> { imageUrl } : new()
+        };
 
         await _cachedService.CreateAsync(dto);
         _logger.LogInformation("Created listing: {@Listing}", dto);
-        return Ok(new { message = "Listing created successfully." });
+
+        return Ok(new
+        {
+            message = "Listing created successfully",
+            listing = dto
+        });
     }
 }

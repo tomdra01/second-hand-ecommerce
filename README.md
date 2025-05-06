@@ -110,6 +110,37 @@ To improve performance, we've integrated Redis as a caching layer for `GET /api/
 
 > Result: ~10× faster response times using Redis! 🧠🚀
 
+## 🖼️ Image Upload & Redis Caching
+
+### 📸 Image Upload with MinIO
+
+When creating a new item listing via `POST /api/itemlistings`, the API accepts a `multipart/form-data` request including:
+
+- Title
+- Description
+- Price
+- SellerId
+- Image (file upload)
+
+Uploaded images are stored in a MinIO bucket (`item-images`), and the public URL is returned in the response and stored in MongoDB under the `ImageUrls` field.
+
+#### ✅ Example Response
+
+```json
+{
+  "message": "Listing created successfully",
+  "listing": {
+    "title": "Macbook Pro 2023",
+    "description": "Top condition",
+    "price": 800.0,
+    "sellerId": "user222",
+    "imageUrls": [
+      "http://localhost:9000/item-images/2a63646d-6178-4fbc-9e16-e6067a02624d_logo.png"
+    ]
+  }
+}
+```
+
 
 
 
