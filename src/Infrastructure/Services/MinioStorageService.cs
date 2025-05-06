@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Minio;
 using Minio.DataModel.Args;
 
-namespace Infrastructure.Storage;
+namespace Infrastructure.Services;
 
 public class MinioStorageService
 {

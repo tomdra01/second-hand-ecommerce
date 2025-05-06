@@ -1,7 +1,7 @@
 using API.Requests;
 using Application.DTOs;
 using Application.Interfaces;
-using Infrastructure.Storage;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

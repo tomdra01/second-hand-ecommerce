@@ -1,7 +1,7 @@
 using Application.DTOs;
 using Application.Interfaces;
 using Application.Mappers;
-using Infrastructure.Common;
+using Infrastructure.Services;
 
 namespace Infrastructure.ItemListings;
 
