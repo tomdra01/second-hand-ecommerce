@@ -16,6 +16,18 @@ public class OrderRepository : IOrderRepository
         _context = context;
     }
 
+    public async Task<IEnumerable<Order>> GetAllAsync()
+    {
+        var dbOrders = await _context.Orders.Find(_ => true).ToListAsync();
+        return dbOrders.Select(OrderDbMapper.ToDomain);
+    }
+
+    public async Task<Order?> GetByIdAsync(Guid id)
+    {
+        var dbOrder = await _context.Orders.Find(o => o.Id == id.ToString()).FirstOrDefaultAsync();
+        return dbOrder is null ? null : OrderDbMapper.ToDomain(dbOrder);
+    }
+
     public async Task PlaceOrderWithTransactionAsync(Order order, ItemListing itemToUpdate)
     {
         using var session = _context.StartSession();

@@ -1,9 +1,12 @@
 using System.Globalization;
 using API.Config;
 using Application.Commands.CreateItemListing;
+using Application.Commands.CreateOrder;
 using Application.Interfaces;
 using Application.Queries.GetItemListingById;
 using Application.Queries.GetItemListings;
+using Application.Queries.GetOrderById;
+using Application.Queries.GetOrders;
 using Application.Services;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
@@ -54,12 +57,14 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 // Register services
 builder.Services.AddScoped<IItemListingService, ItemListingService>();
-builder.Services.AddScoped<ICachedItemListingService, CachedItemListingService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 // Register CQRS handlers
 builder.Services.AddScoped<GetAllItemListingHandler>();
 builder.Services.AddScoped<GetItemListingByIdHandler>();
+builder.Services.AddScoped<GetAllOrdersHandler>();
+builder.Services.AddScoped<GetOrderByIdHandler>();
+builder.Services.AddScoped<CreateOrderHandler>();
 builder.Services.AddScoped<CreateItemListingHandler>();
 
 var app = builder.Build();

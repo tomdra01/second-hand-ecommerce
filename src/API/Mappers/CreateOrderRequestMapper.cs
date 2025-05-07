@@ -1,15 +1,17 @@
 using API.Requests;
-using Application.DTOs;
+using Application.Commands.CreateOrder;
 
 namespace API.Mappers;
 
 public static class CreateOrderRequestMapper
 {
-    public static OrderDto ToDto(CreateOrderRequest request) => new()
+    public static CreateOrderCommand ToCommand(CreateOrderRequest request)
     {
-        ItemId = request.ItemId,
-        BuyerId = request.BuyerId,
-        Quantity = request.Quantity,
-        TotalPrice = request.TotalPrice
-    };
+        return new CreateOrderCommand
+        {
+            ItemId = request.ItemId,
+            BuyerId = request.BuyerId,
+            Quantity = request.Quantity,
+        };
+    }
 }

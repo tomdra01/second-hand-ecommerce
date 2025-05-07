@@ -42,7 +42,6 @@ public class CreateItemListingHandler
 
         await _repository.CreateAsync(entity);
         await _cache.RemoveAsync("item_listings_all");
-
         return entity.Id.ToString();
     }
 }
