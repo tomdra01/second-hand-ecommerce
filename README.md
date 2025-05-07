@@ -1,189 +1,141 @@
-# Second–Hand E-Commerce Backend
+# Second-Hand E-Commerce Backend
 
-This is a backend service for a second-hand marketplace platform, built with .NET 8 and MongoDB.
+This repository contains the backend implementation of a second-hand e-commerce platform developed as part of the "Databases for Developers" course assignment. The system demonstrates modern architectural and database practices including NoSQL storage, CQRS, caching, cloud storage, and transaction handling.
 
-## 🛠 Tech Stack
+## 🧑‍💻 Group Contributions
+- **Tomas Dracka** 
 
-- **.NET 8 Web API** – Backend application
-- **MongoDB** – NoSQL database for item listings
-- **Redis** *(Planned)* – In-memory caching layer
-- **MinIO** *(Planned)* – Cloud-native object storage for image uploads
-- **CQRS Pattern** – Separation of read/write responsibilities
-- **MongoDB Transactions** – Atomic operations (if needed)
 
-## 🧱 Clean Architecture Overview
+---
 
-- **Domain**: Contains core business entities like `ItemListing.cs`.
-- **Application**: Contains use-case logic, service interfaces, DTOs, and mappers.
-- **Infrastructure**: External integrations like MongoDB, Redis (planned), and MinIO (planned).
-- **API**: Entry point with controllers, config classes, dependency injection, and Swagger.
+## 📦 Technologies Used
 
-## 🚀 Getting Started
+- **.NET 8**
+- **MongoDB** (NoSQL)
+- **Redis** (Caching)
+- **MinIO** (Cloud file storage)
+- **Docker + Docker Compose**
+- **CQRS pattern**
+- **Serilog** (logging)
 
-### 1. Clone the repository
+---
 
-```bash
-git clone https://github.com/tomdra01/second-hand-ecommerce.git
-cd second-hand-ecommerce
-```
+## 🧱 Architecture Overview
 
-### 2. Run Required Services with Docker
+The backend follows Clean Architecture principles with the following projects:
+- `Domain`: Entity definitions
+- `Application`: CQRS handlers, service interfaces, DTOs
+- `Infrastructure`: MongoDB repositories, Redis/MinIO services
+- `API`: Controllers, Swagger, dependency injection
 
-```bash
-docker-compose up -d
-```
+---
 
-This spins up:
+## 🗃️ Database Selection
 
-MongoDB on port 27017
+### MongoDB
+- Used as the primary NoSQL database to store dynamic, flexible item listings, orders, and user-related data.
+- Enables schema-less design, scalability, and easy integration with Docker.
 
-Redis (planned) on port 6379
+---
 
-MinIO (planned) on port 9000
+## 🧩 Data Models
 
-### 3. Run the .NET Backend
-From the src/API/ folder:
-
-```bash
-dotnet run
-```
-
-API will be available at:
-http://localhost:5040
-
-### 4. Test Endpoints
-
-Use Postman or similar tool to hit:
-
-POST /api/itemlistings – Create a new item listing (JSON payload)
-
-GET /api/itemlistings – Get all listings
-
-GET /api/itemlistings/{id} – Get listing by ID
-
-### 🗂 Project Structure
-
-```pgsql
-second-hand-ecommerce/
-├── API/
-│   ├── Config/
-│   ├── Controllers/
-│   ├── Program.cs
-│   └── appsettings.json
-├── Application/
-│   ├── DTOs/
-│   ├── Interfaces/
-│   ├── Mappers/
-│   └── Services/
-├── Domain/
-│   └── Entities/
-├── Infrastructure/
-│   ├── Common/
-│   ├── Data/
-│   ├── ItemListings/
-│   └── Storage/
-└── docker-compose.yml
-```
-
-## ⚡ Redis Caching Explained
-
-To improve performance, we've integrated Redis as a caching layer for `GET /api/itemlistings`.
-
-### How it works:
-- On the **first request**, the system fetches all listings from **MongoDB** and stores them in **Redis**.
-- Subsequent requests are served directly from **Redis**, significantly reducing latency.
-
-### 🔁 Cache Invalidation:
-- Whenever a new item listing is **created**, the cache is **invalidated** to ensure data consistency.
-
-### ⏱ Real Performance Gain:
-| Source      | Response Time |
-|-------------|----------------|
-| MongoDB     | ~110–240 ms    |
-| Redis Cache | ~4–28 ms       |
-
-- MongoDB response times can vary based on the number of items in the database. The more items, the longer it takes to fetch them.
-
-- First request to MongoDB takes longer due to the initial fetch. 
-
-- Redis response times are consistent and significantly faster, regardless of the number of items. 
-
-> Result: ~10× faster response times using Redis! 🧠🚀
-
-## 🖼️ Image Upload & Redis Caching
-
-### 📸 Image Upload with MinIO
-
-When creating a new item listing via `POST /api/itemlistings`, the API accepts a `multipart/form-data` request including:
-
-- Title
-- Description
-- Price
-- SellerId
-- Image (file upload)
-
-Uploaded images are stored in a MinIO bucket (`item-images`), and the public URL is returned in the response and stored in MongoDB under the `ImageUrls` field.
-
-#### ✅ Example Response
-
+### ItemListing
 ```json
 {
-  "message": "Listing created successfully",
-  "listing": {
-    "title": "Macbook Pro 2023",
-    "description": "Top condition",
-    "price": 800.0,
-    "sellerId": "user222",
-    "imageUrls": [
-      "http://localhost:9000/item-images/2a63646d-6178-4fbc-9e16-e6067a02624d_logo.png"
-    ]
-  }
+  "id": "guid",
+  "title": "string",
+  "description": "string",
+  "price": "decimal",
+  "sellerId": "string",
+  "imageUrls": ["string"],
+  "isSold": "bool"
 }
 ```
 
-# Second-Hand E-Commerce Backend
+### Order
+```json
+{
+  "id": "guid",
+  "itemId": "guid",
+  "buyerId": "string",
+  "quantity": "int",
+  "totalPrice": "decimal",
+  "placedAt": "datetime"
+}
+```
 
-## Technologies Used
-- ASP.NET Core (.NET 9)
-- MongoDB (NoSQL)
-- Redis (Caching)
-- MinIO (Cloud Storage)
-- CQRS (Commands & Queries)
-- Docker + Docker Compose
-- Serilog (Logging)
+---
 
-## Architecture
-- Follows Clean Architecture principles.
-- API is decoupled from Application and Infrastructure layers.
+## ☁️ Cloud Storage
 
-## Database Strategy
-- MongoDB for listings, orders, and users due to flexible schema.
-- Redis for caching frequently accessed listings.
+MinIO is used to store uploaded images for item listings. The process is:
+- Images are uploaded using `IFormFile` in the `CreateItemListingHandler`.
+- Files are stored in MinIO using `MinioStorageService`.
+- Public URLs are generated and stored alongside item listings in MongoDB.
 
-## Cloud Storage
-- MinIO is used for storing uploaded item images.
-- Images are uploaded using `IFileStorageService` abstraction.
+---
 
-## CQRS
-- Commands: CreateItemListingCommand
-- Queries: GetAllItemListings, GetItemListingById
-- Handlers isolate read/write responsibilities.
+## 🚀 Caching Strategy
 
-## Transactions
-- (Explain your planned or implemented MongoDB multi-document transaction here — even for a fake "PlaceOrder" flow.)
+- Redis is used to cache frequently accessed data such as item listings and orders.
+- `GetAllItemListings` and `GetAllOrders` use Redis to serve from cache.
+- `CreateItemListing` and `CreateOrder` handlers **invalidate cache** by removing keys (`item_listings_all`, `orders_all`).
 
-## Group Contributions
-- [Your name] – CQRS, Mongo setup, caching
-- [Other name] – Cloud storage, testing, Docker
+---
 
-## Running Locally
-- `docker-compose up`
-- `dotnet run` in `/src/API`
+## 🔀 CQRS Implementation
 
-## Future Improvements
-- Add search functionality
-- Full authentication and seller verification
+We use separate command/query handlers for improved separation of concerns.
+
+### Commands:
+- `CreateItemListingCommand`
+- `CreateOrderCommand`
+
+### Queries:
+- `GetAllItemListingsQuery`
+- `GetItemListingByIdQuery`
+- `GetAllOrdersQuery`
+- `GetOrderByIdQuery`
+
+---
+
+## 🔁 Transactions
+
+MongoDB multi-document transactions ensure consistency for critical operations:
+
+### Example – Placing an Order:
+- Insert `Order` document into `Orders` collection.
+- Mark corresponding `ItemListing` as `IsSold = true`.
+- If either fails, transaction is rolled back.
+
+---
+
+## 🧪 Testing
+
+- Endpoints tested using **Postman** (Create, GetAll, GetById for listings and orders).
+- Console logs monitored via Serilog for debugging and request tracing.
+
+---
+
+## 📝 Design Decisions & Assumptions
+
+- Used MongoDB due to schema flexibility for item listings and easy support for rich data types.
+- Redis was selected for its speed and ease of integration with .NET for caching.
+- CQRS helps decouple read/write logic and makes handlers independently testable.
+- MinIO allows us to simulate cloud-based S3-compatible file storage in local/dev environments.
+- Transactions are used for order placement to maintain data consistency.
+
+---
+
+## 📄 How to Run
+
+```bash
+docker compose up --build -d
+```
 
 
 
+## 📎 License
 
+This project is open for educational purposes.
