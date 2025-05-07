@@ -141,6 +141,49 @@ Uploaded images are stored in a MinIO bucket (`item-images`), and the public URL
 }
 ```
 
+# Second-Hand E-Commerce Backend
+
+## Technologies Used
+- ASP.NET Core (.NET 9)
+- MongoDB (NoSQL)
+- Redis (Caching)
+- MinIO (Cloud Storage)
+- CQRS (Commands & Queries)
+- Docker + Docker Compose
+- Serilog (Logging)
+
+## Architecture
+- Follows Clean Architecture principles.
+- API is decoupled from Application and Infrastructure layers.
+
+## Database Strategy
+- MongoDB for listings, orders, and users due to flexible schema.
+- Redis for caching frequently accessed listings.
+
+## Cloud Storage
+- MinIO is used for storing uploaded item images.
+- Images are uploaded using `IFileStorageService` abstraction.
+
+## CQRS
+- Commands: CreateItemListingCommand
+- Queries: GetAllItemListings, GetItemListingById
+- Handlers isolate read/write responsibilities.
+
+## Transactions
+- (Explain your planned or implemented MongoDB multi-document transaction here — even for a fake "PlaceOrder" flow.)
+
+## Group Contributions
+- [Your name] – CQRS, Mongo setup, caching
+- [Other name] – Cloud storage, testing, Docker
+
+## Running Locally
+- `docker-compose up`
+- `dotnet run` in `/src/API`
+
+## Future Improvements
+- Add search functionality
+- Full authentication and seller verification
+
 
 
 
