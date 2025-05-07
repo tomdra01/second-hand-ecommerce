@@ -1,10 +1,11 @@
+using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Minio;
 using Minio.DataModel.Args;
 
 namespace Infrastructure.Services;
 
-public class MinioStorageService
+public class MinioStorageService : IFileStorageService
 {
     private readonly IMinioClient _client;
     private readonly string _bucketName = "item-images";
@@ -17,17 +18,16 @@ public class MinioStorageService
             .Build();
     }
 
-    public async Task UploadFileAsync(IFormFile file, string objectName)
+    public async Task UploadFileAsync(string objectName, Stream stream, string contentType)
     {
-        using var stream = file.OpenReadStream();
         await EnsureBucketExists();
 
         await _client.PutObjectAsync(new PutObjectArgs()
             .WithBucket(_bucketName)
             .WithObject(objectName)
             .WithStreamData(stream)
-            .WithObjectSize(file.Length)
-            .WithContentType(file.ContentType));
+            .WithObjectSize(stream.Length)
+            .WithContentType(contentType));
     }
 
     public string GetFileUrl(string objectName)

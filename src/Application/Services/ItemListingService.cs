@@ -1,35 +1,39 @@
+using Application.Commands.CreateItemListing;
 using Application.DTOs;
 using Application.Interfaces;
-using Application.Mappers;
+using Application.Queries.GetItemListingById;
+using Application.Queries.GetItemListings;
 
 namespace Application.Services;
 
 public class ItemListingService : IItemListingService
 {
-    private readonly IItemListingRepository _repository;
+    private readonly GetAllItemListingHandler _getAllHandler;
+    private readonly GetItemListingByIdHandler _getByIdHandler;
+    private readonly CreateItemListingHandler _createHandler;
 
-    public ItemListingService(IItemListingRepository repository)
+    public ItemListingService(
+        GetAllItemListingHandler getAllHandler,
+        GetItemListingByIdHandler getByIdHandler,
+        CreateItemListingHandler createHandler)
     {
-        _repository = repository;
+        _getAllHandler = getAllHandler;
+        _getByIdHandler = getByIdHandler;
+        _createHandler = createHandler;
     }
 
     public async Task<IEnumerable<ItemListingDto>> GetAllAsync()
     {
-        var listings = await _repository.GetAllAsync();
-        return listings.Select(ItemListingMapper.ToDto);
+        return await _getAllHandler.HandleAsync(new GetAllItemListingQuery());
     }
 
     public async Task<ItemListingDto?> GetByIdAsync(Guid id)
     {
-        var listing = await _repository.GetByIdAsync(id);
-        return listing is null ? null : ItemListingMapper.ToDto(listing);
+        return await _getByIdHandler.HandleAsync(new GetItemListingByIdQuery { Id = id });
     }
 
-    public async Task CreateAsync(ItemListingDto dto)
+    public async Task<string> CreateWithImageAsync(CreateItemListingCommand command)
     {
-        var entity = ItemListingMapper.ToEntity(dto);
-        await _repository.CreateAsync(entity);
-        
-        dto.Id = entity.Id.ToString();
+        return await _createHandler.HandleAsync(command);
     }
 }
