@@ -1,0 +1,25 @@
+using Application.DTOs;
+using Domain.Entities;
+
+namespace Application.Mappers;
+
+public static class OrderMapper
+{
+    public static OrderDto ToDto(Order entity) => new()
+    {
+        ItemId = entity.ItemId,
+        BuyerId = entity.BuyerId,
+        Quantity = entity.Quantity,
+        TotalPrice = entity.TotalPrice
+    };
+
+    public static Order ToEntity(OrderDto dto) => new()
+    {
+        Id = Guid.NewGuid(),
+        ItemId = dto.ItemId,
+        BuyerId = dto.BuyerId,
+        Quantity = dto.Quantity,
+        TotalPrice = dto.TotalPrice,
+        PlacedAt = DateTime.UtcNow
+    };
+}

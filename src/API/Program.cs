@@ -48,10 +48,14 @@ builder.Services.AddSingleton(new MongoDbContext(mongoConfig!.ConnectionString, 
 builder.Services.AddSingleton<ICacheService>(_ => new RedisCacheService(redisConfig!.ConnectionString));
 builder.Services.AddSingleton<IFileStorageService>(_ => new MinioStorageService(minioConfig!.Endpoint, minioConfig.AccessKey, minioConfig.SecretKey));
 
-// Register services
+// Register domain repositories
 builder.Services.AddScoped<IItemListingRepository, ItemListingRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+// Register services
 builder.Services.AddScoped<IItemListingService, ItemListingService>();
 builder.Services.AddScoped<ICachedItemListingService, CachedItemListingService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 // Register CQRS handlers
 builder.Services.AddScoped<GetAllItemListingHandler>();
