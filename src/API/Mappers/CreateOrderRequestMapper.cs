@@ -11,7 +11,6 @@ public static class CreateOrderRequestMapper
         {
             ItemId = request.ItemId,
             BuyerId = request.BuyerId,
-            Quantity = request.Quantity,
         };
     }
 }

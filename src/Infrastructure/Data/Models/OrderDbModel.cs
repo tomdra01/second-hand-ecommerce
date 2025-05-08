@@ -15,7 +15,6 @@ public class OrderDbModel
     [BsonRepresentation(BsonType.String)]
     public string BuyerId { get; set; } = string.Empty;
     
-    public int Quantity { get; set; }
     public decimal TotalPrice { get; set; }
     public DateTime PlacedAt { get; set; } = DateTime.UtcNow;
 }

@@ -9,7 +9,6 @@ public static class OrderMapper
     {
         ItemId = entity.ItemId,
         BuyerId = entity.BuyerId,
-        Quantity = entity.Quantity,
         TotalPrice = entity.TotalPrice
     };
 
@@ -18,7 +17,6 @@ public static class OrderMapper
         Id = Guid.NewGuid(),
         ItemId = dto.ItemId,
         BuyerId = dto.BuyerId,
-        Quantity = dto.Quantity,
         TotalPrice = dto.TotalPrice,
         PlacedAt = DateTime.UtcNow
     };

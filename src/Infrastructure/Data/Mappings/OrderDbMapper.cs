@@ -10,7 +10,6 @@ public static class OrderDbMapper
         Id = entity.Id == Guid.Empty ? Guid.NewGuid().ToString() : entity.Id.ToString(),
         ItemId = entity.ItemId,
         BuyerId = entity.BuyerId,
-        Quantity = entity.Quantity,
         TotalPrice = entity.TotalPrice,
         PlacedAt = entity.PlacedAt
     };
@@ -20,7 +19,6 @@ public static class OrderDbMapper
         Id = Guid.Parse(dbModel.Id),
         ItemId = dbModel.ItemId,
         BuyerId = dbModel.BuyerId,
-        Quantity = dbModel.Quantity,
         TotalPrice = dbModel.TotalPrice,
         PlacedAt = dbModel.PlacedAt
     };

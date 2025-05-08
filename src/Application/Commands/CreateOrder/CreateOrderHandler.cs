@@ -28,8 +28,7 @@ public class CreateOrderHandler
             Id = Guid.NewGuid(),
             ItemId = item.Id.ToString(),
             BuyerId = command.BuyerId,
-            Quantity = command.Quantity,
-            TotalPrice = item.Price * command.Quantity,
+            TotalPrice = item.Price,
             PlacedAt = DateTime.UtcNow
         };
 
