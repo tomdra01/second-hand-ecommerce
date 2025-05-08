@@ -13,5 +13,5 @@ public class ItemListingDbModel
     public decimal Price { get; set; }
     public string SellerId { get; set; } = string.Empty;
     public List<string> ImageUrls { get; set; } = new();
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public bool IsSold { get; set; } = false;
 }

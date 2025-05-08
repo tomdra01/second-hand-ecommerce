@@ -34,7 +34,9 @@ public class CreateOrderHandler
         };
 
         await _orderRepository.PlaceOrderWithTransactionAsync(order, item);
+        
         await _cache.RemoveAsync("orders_all");
+        await _cache.RemoveAsync("item_listings_all"); 
 
         return order.Id.ToString();
     }

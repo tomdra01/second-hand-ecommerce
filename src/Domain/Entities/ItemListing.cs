@@ -9,5 +9,4 @@ public class ItemListing
     public string SellerId { get; set; } = string.Empty;
     public List<string> ImageUrls { get; set; } = new();
     public bool IsSold { get; set; } = false;
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

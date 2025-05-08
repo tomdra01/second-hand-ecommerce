@@ -18,7 +18,7 @@ public class ItemListingRepository : IItemListingRepository
 
     public async Task<IEnumerable<ItemListing>> GetAllAsync()
     {
-        var dbModels = await _collection.Find(_ => true).ToListAsync();
+        var dbModels = await _collection.Find(x => x.IsSold == false).ToListAsync();
         return dbModels.Select(ItemListingDbMapper.ToDomain);
     }
 

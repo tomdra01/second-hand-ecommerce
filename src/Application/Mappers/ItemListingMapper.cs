@@ -12,7 +12,8 @@ public static class ItemListingMapper
         Description = entity.Description,
         Price = entity.Price,
         SellerId = entity.SellerId,
-        ImageUrls = entity.ImageUrls 
+        ImageUrls = entity.ImageUrls,
+        IsSold = entity.IsSold
     };
 
     public static ItemListing ToEntity(ItemListingDto dto) => new()
@@ -22,6 +23,7 @@ public static class ItemListingMapper
         Description = dto.Description,
         Price = dto.Price,
         SellerId = dto.SellerId,
-        ImageUrls = dto.ImageUrls
+        ImageUrls = dto.ImageUrls,
+        IsSold = dto.IsSold
     };
 }
