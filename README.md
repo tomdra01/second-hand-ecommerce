@@ -65,6 +65,17 @@ The backend follows Clean Architecture principles with the following projects:
 }
 ```
 
+### Review
+```json
+{
+  "sellerId": "string",
+  "reviewerId": "string",
+  "rating": "int",
+  "comment": "string",
+  "createdAt": "datetime"
+}
+```
+
 ---
 
 ## ☁️ Cloud Storage
@@ -80,7 +91,13 @@ MinIO is used to store uploaded images for item listings. The process is:
 
 - Redis is used to cache frequently accessed data such as item listings and orders.
 - `GetAllItemListings` and `GetAllOrders` use Redis to serve from cache.
-- `CreateItemListing` and `CreateOrder` handlers **invalidate cache** by removing keys (`item_listings_all`, `orders_all`).
+- `CreateItemListing` and `CreateOrder` handlers **invalidate cache** by removing keys (`item_listings_all`, `orders_all`, and related review keys if needed).
+
+---
+
+## ⭐ Review System
+
+Users can leave reviews for sellers after transactions. Each review includes a rating, comment, reviewer/seller relationship, and timestamp. This helps improve trust and transparency in the platform.
 
 ---
 
