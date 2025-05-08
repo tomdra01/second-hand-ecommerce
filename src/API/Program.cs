@@ -2,11 +2,14 @@ using System.Globalization;
 using API.Config;
 using Application.Commands.CreateItemListing;
 using Application.Commands.CreateOrder;
+using Application.Commands.CreateReview;
 using Application.Interfaces;
 using Application.Queries.GetItemListingById;
 using Application.Queries.GetItemListings;
 using Application.Queries.GetOrderById;
 using Application.Queries.GetOrders;
+using Application.Queries.GetReviews;
+using Application.Queries.GetReviewsBySellerId;
 using Application.Services;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
@@ -54,19 +57,28 @@ builder.Services.AddSingleton<IFileStorageService>(_ => new MinioStorageService(
 // Register domain repositories
 builder.Services.AddScoped<IItemListingRepository, ItemListingRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 // Register services
 builder.Services.AddScoped<IItemListingService, ItemListingService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 // Register CQRS handlers
 builder.Services.AddScoped<GetAllItemListingHandler>();
 builder.Services.AddScoped<GetItemListingByIdHandler>();
-builder.Services.AddScoped<GetAllOrdersHandler>();
+
 builder.Services.AddScoped<GetOrderByIdHandler>();
+builder.Services.AddScoped<GetAllOrdersHandler>();
+
+builder.Services.AddScoped<GetReviewsBySellerIdHandler>();
+builder.Services.AddScoped<GetAllReviewsHandler>();
+
 builder.Services.AddScoped<CreateOrderHandler>();
 builder.Services.AddScoped<CreateItemListingHandler>();
+builder.Services.AddScoped<CreateReviewHandler>();
 
+// Build the application
 var app = builder.Build();
 
 // Middleware pipeline

@@ -21,4 +21,7 @@ public class MongoDbContext
 
     public IMongoCollection<OrderDbModel> Orders =>
         _database.GetCollection<OrderDbModel>("Orders");
+    
+    public IMongoCollection<ReviewDbModel> Reviews =>
+        _database.GetCollection<ReviewDbModel>("Reviews");
 }
