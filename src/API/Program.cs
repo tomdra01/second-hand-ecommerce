@@ -3,6 +3,7 @@ using API.Config;
 using Application.Commands.CreateItemListing;
 using Application.Commands.CreateOrder;
 using Application.Commands.CreateReview;
+using Application.Commands.CreateUserProfile;
 using Application.Interfaces;
 using Application.Queries.GetItemListingById;
 using Application.Queries.GetItemListings;
@@ -10,6 +11,7 @@ using Application.Queries.GetOrderById;
 using Application.Queries.GetOrders;
 using Application.Queries.GetReviews;
 using Application.Queries.GetReviewsBySellerId;
+using Application.Queries.GetUserProfiles;
 using Application.Services;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
@@ -58,11 +60,13 @@ builder.Services.AddSingleton<IFileStorageService>(_ => new MinioStorageService(
 builder.Services.AddScoped<IItemListingRepository, ItemListingRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
 // Register services
 builder.Services.AddScoped<IItemListingService, ItemListingService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 
 // Register CQRS handlers
 builder.Services.AddScoped<GetAllItemListingHandler>();
@@ -73,6 +77,9 @@ builder.Services.AddScoped<GetAllOrdersHandler>();
 
 builder.Services.AddScoped<GetReviewsBySellerIdHandler>();
 builder.Services.AddScoped<GetAllReviewsHandler>();
+
+builder.Services.AddScoped<GetAllUserProfilesHandler>();
+builder.Services.AddScoped<CreateUserProfileHandler>();
 
 builder.Services.AddScoped<CreateOrderHandler>();
 builder.Services.AddScoped<CreateItemListingHandler>();
