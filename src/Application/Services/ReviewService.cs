@@ -1,5 +1,5 @@
 using Application.Commands.CreateReview;
-using Application.DTOs;
+using Application.Data.DTOs;
 using Application.Interfaces;
 using Application.Queries.GetReviews;
 using Application.Queries.GetReviewsBySellerId;

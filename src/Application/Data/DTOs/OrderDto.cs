@@ -1,6 +1,6 @@
-namespace API.Requests;
+namespace Application.Data.DTOs;
 
-public class CreateOrderRequest
+public class OrderDto
 {
     public string ItemId { get; set; } = string.Empty;
     public string BuyerId { get; set; } = string.Empty;

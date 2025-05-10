@@ -1,6 +1,6 @@
-using Application.DTOs;
+using Application.Data.DTOs;
+using Application.Data.Mappers;
 using Application.Interfaces;
-using Application.Mappers;
 
 namespace Application.Queries.GetItemListingById;
 

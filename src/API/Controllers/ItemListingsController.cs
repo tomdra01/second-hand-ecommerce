@@ -1,6 +1,6 @@
-using API.Mappers;
-using API.Requests;
-using Application.DTOs;
+using API.Data.Mappers;
+using API.Data.Requests;
+using Application.Data.DTOs;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

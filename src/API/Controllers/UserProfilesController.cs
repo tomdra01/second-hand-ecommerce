@@ -1,5 +1,5 @@
-using API.Mappers;
-using API.Requests;
+using API.Data.Mappers;
+using API.Data.Requests;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

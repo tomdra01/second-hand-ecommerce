@@ -1,4 +1,4 @@
-namespace Application.DTOs;
+namespace Application.Data.DTOs;
 
 public class FileUploadDto
 {

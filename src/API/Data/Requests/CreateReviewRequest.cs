@@ -1,10 +1,9 @@
-namespace Application.DTOs;
+namespace API.Data.Requests;
 
-public class ReviewDto
+public class CreateReviewRequest
 {
     public string SellerId { get; set; } = string.Empty;
     public string ReviewerId { get; set; } = string.Empty;
     public int Rating { get; set; }
     public string Comment { get; set; } = string.Empty;
-    public DateTime CreatedAt { get; set; }
 }

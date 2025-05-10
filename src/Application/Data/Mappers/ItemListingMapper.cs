@@ -1,7 +1,7 @@
-using Application.DTOs;
+using Application.Data.DTOs;
 using Domain.Entities;
 
-namespace Application.Mappers;
+namespace Application.Data.Mappers;
 
 public static class ItemListingMapper
 {

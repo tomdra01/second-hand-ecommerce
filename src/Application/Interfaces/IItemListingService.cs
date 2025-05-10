@@ -1,5 +1,5 @@
 using Application.Commands.CreateItemListing;
-using Application.DTOs;
+using Application.Data.DTOs;
 
 namespace Application.Interfaces;
 

@@ -1,8 +1,8 @@
-using API.Requests;
+using API.Data.Requests;
 using Application.Commands.CreateItemListing;
-using Application.DTOs;
+using Application.Data.DTOs;
 
-namespace API.Mappers;
+namespace API.Data.Mappers;
 
 public static class CreateItemListingRequestMapper
 {

@@ -1,4 +1,4 @@
-namespace API.Requests;
+namespace API.Data.Requests;
 
 public class CreateItemListingRequest
 {
