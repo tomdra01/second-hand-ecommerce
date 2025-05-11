@@ -213,8 +213,19 @@ This backend solution addresses all core requirements of the assignment:
 - ✅ **Caching with Redis**
 - ✅ **CQRS pattern in all services**
 - ✅ **MongoDB transaction support**
-- ✅ **Documented design assumptions**
-- ✅ **Solo implementation**
+
+---
+
+## 🛠️ Future Improvements
+
+While the current implementation meets all core requirements, the system is designed with scalability and extensibility in mind. Possible future enhancements include:
+
+- **Profile Pictures**: Extend the `UserProfile` entity to support uploading profile images using MinIO, just like item listings.
+- **Review Media**: Allow attaching images or videos to reviews (e.g., showing item condition).
+- **Search & Filtering**: Add advanced querying features to search listings by title, price range, or seller rating.
+- **Authentication & Authorization**: Integrate user login and role-based access for managing reviews and listings.
+- **Pagination**: Add pagination to all list-based API endpoints to improve performance for large datasets.
+- **User Dashboard**: Implement endpoints for managing a user's own listings, orders, and reviews.
 
 ---
 
