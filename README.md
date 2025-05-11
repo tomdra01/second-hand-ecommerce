@@ -182,6 +182,17 @@ If anything fails, all operations are rolled back.
 
 ---
 
+## 🧩 Layered Models and Mapping Strategy
+
+To maintain clear separation of concerns, the project uses different model representations across layers:
+
+- **API Layer**: Uses `Request` models to receive input from HTTP clients. These are mapped to command objects using dedicated request mappers.
+- **Application Layer**: Uses `Command` and `Query` models for business actions. DTOs (`Data Transfer Objects`) are used for read operations and are mapped to/from domain entities.
+- **Domain Layer**: Contains core `Entity` classes that encapsulate business logic and validation rules.
+- **Infrastructure Layer**: Defines `DbModel` classes for persistence in MongoDB and includes mappers to convert between domain entities and database representations.
+
+This approach improves code modularity, makes the system easier to maintain and extend, and supports Clean Architecture principles. By isolating models by responsibility, we avoid coupling between layers and improve testability and code clarity.
+
 ## 🧠 Design Decisions
 
 - MongoDB chosen over SQL for flexibility and scaling unstructured data
